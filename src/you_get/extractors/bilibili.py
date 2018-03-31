@@ -23,7 +23,7 @@ from .youku import youku_download_by_vid
 class Bilibili(VideoExtractor):
     name = 'Bilibili'
     live_api = 'http://live.bilibili.com/api/playurl?cid={}&otype=json'
-    api_url = 'http://interface.bilibili.com/playurl?'
+    api_url = 'http://interface.bilibili.com/v2/playurl?'
     bangumi_api_url = 'http://bangumi.bilibili.com/player/web_api/playurl?'
     live_room_init_api_url = 'https://api.live.bilibili.com/room/v1/Room/room_init?id={}'
     live_room_info_api_url = 'https://api.live.bilibili.com/room/v1/Room/get_info?room_id={}'
@@ -167,8 +167,8 @@ class Bilibili(VideoExtractor):
             qq_download_by_vid(tc_flashvars, self.title, output_dir=kwargs['output_dir'], merge=kwargs['merge'], info_only=kwargs['info_only'])
             return
 
-        has_plist = re.search(r'<option', self.page)
-        if has_plist and r1('index_(\d+).html', self.url) is None:
+        has_plist = re.search(r'"page":2', self.page)
+        if has_plist:
             log.w('This page contains a playlist. (use --playlist to download all videos.)')
 
         try:
